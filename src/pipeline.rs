@@ -48,7 +48,6 @@ impl Stage<Vec<u8>, Vec<Record>> for RecordParserStage {
         Ok(res)
     }
 }
-
 //
 // ---------- Business Logic Stage ------------
 //
@@ -114,7 +113,6 @@ impl<S> Pipeline<S> {
         }
     }
 
-    /// Run the composed pipeline
     pub fn run<I, O>(self, input: I) -> Result<O>
     where
         S: Stage<I, O>,
