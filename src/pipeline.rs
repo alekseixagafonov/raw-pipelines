@@ -62,7 +62,7 @@ impl Stage<Vec<Record>, Vec<Record>> for BusinessLogicStage {
 
         for rec in input {
             if rec.len() <= 3 {
-                continue; // skip small records
+                continue;
             }
 
             if let Ok(s) = String::from_utf8(rec) {
@@ -74,10 +74,6 @@ impl Stage<Vec<Record>, Vec<Record>> for BusinessLogicStage {
     }
 }
 
-//
-// -------- Pipeline Combinator ----------
-//
-
 pub struct Pipeline<S> {
     pub stage: S,
 }
@@ -87,13 +83,11 @@ impl<S> Pipeline<S> {
         Self { stage }
     }
 
-    /// Compose two stages: A → B → C
     pub fn then<Next, I, M, O>(self, next: Next) -> Pipeline<impl Stage<I, O>>
     where
         S: Stage<I, M> + 'static,
         Next: Stage<M, O> + 'static,
     {
-        // локальный тип, через который мы «протаскиваем» промежуточный тип M
         struct Combined<A, B, M> {
             a: A,
             b: B,
